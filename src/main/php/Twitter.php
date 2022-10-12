@@ -8,9 +8,7 @@ require 'IObservable.php';
 
 class Twitter implements IObservable
 {
-    private $observers = array();
-
-    public function __construct(){}
+    public function __construct(array $observers = null){}
 
     public function subscribe(array $observers):void
     {
@@ -30,6 +28,11 @@ class Twitter implements IObservable
     public function getObservers():array
     {
         return $this->observers;
+    }
+
+    public function getTwits():array
+    {
+        throw new RuntimeException();
     }
 }
 
