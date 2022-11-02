@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace SocialNetwork;
 
@@ -8,7 +8,14 @@ require 'IObservable.php';
 
 class Twitter implements IObservable
 {
-    public function __construct(array $observers = null){}
+    //region private attributes
+    private array $observers = array();
+    //endregion private attributes
+
+    public function __construct(array $observers = array())
+    {
+        throw new RuntimeException();
+    }
 
     public function subscribe(array $observers):void
     {
