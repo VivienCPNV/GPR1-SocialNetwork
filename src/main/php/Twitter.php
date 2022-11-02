@@ -1,35 +1,50 @@
-<?php declare(strict_types=1);
+<?php
 
 namespace SocialNetwork;
 
 use RuntimeException;
 
+require_once 'Follower.php';
 require 'IObservable.php';
 
 class Twitter implements IObservable
 {
-    //region private attributes
-    private array $observers = array();
-    //endregion private attributes
-
+    private $observers = array();
+    private $twits = array();
     public function __construct(array $observers = array())
     {
-        throw new RuntimeException();
+        $this->observers = $observers;
     }
 
     public function subscribe(array $observers):void
     {
-        throw new RuntimeException();
+        //Array merge not workey
+        foreach($observers as $observer){
+            if (in_array($observer, $this->observers, TRUE)){
+                throw new SubscriberAlreadyExistsException();
+            }
+            array_push($this->observers, $observer);
+        }
     }
 
     public function unsubscribe(IObserver $observer):void
     {
-        throw new RuntimeException();
+        if (empty($this->observers)){
+            throw new EmptyListOfSubscribersException();
+        }
+        if (($key = array_search($observer, $this->observers, TRUE)) !== FALSE){
+            unset($this->observers[$key]);
+        } else {
+            throw new SubscriberNotFoundException();
+        }
     }
 
     public function notifyObservers():void
     {
-        throw new RuntimeException();
+        if (empty($this->observers)){
+            throw new EmptyListOfSubscribersException();
+        }
+        //Todo notify
     }
 
     public function getObservers():array
@@ -39,7 +54,7 @@ class Twitter implements IObservable
 
     public function getTwits():array
     {
-        throw new RuntimeException();
+        return $this->twits;
     }
 }
 
