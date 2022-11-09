@@ -13,7 +13,12 @@ class Twitter implements IObservable
     private $twits = array();
     public function __construct(array $observers = array())
     {
-        $this->observers = $observers;
+        foreach($observers as $observer){
+            if(in_array($observer, $this->observers, TRUE)){
+                throw new SubscriberAlreadyExistsException();
+            }
+            array_push($this->observers, $observer);
+        }
     }
 
     public function subscribe(array $observers):void
